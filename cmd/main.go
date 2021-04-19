@@ -23,6 +23,8 @@ func main() {
 	var cfg models.Configuration
 	cleanenv.ReadEnv(&cfg)
 
+	connectionsCache := infrastructure.NewConnections()
+
 	forever := make(chan bool)
 	go func() {
 		logrus.Info("Starting titaq relay-server")
@@ -39,7 +41,7 @@ func main() {
 		}
 
 		publisher := infrastructure.NewMessaging(c)
-		relay := usecases.NewRelay(publisher)
+		relay := usecases.NewRelay(publisher, connectionsCache)
 
 		server := presentation.NewTCPServer(relay)
 		server.ListenAndServe("tcp4", ":4589")
@@ -61,7 +63,7 @@ func main() {
 
 		outgoingEvents := make(chan *domain.OutgoingEvent)
 		publisher := infrastructure.NewMessaging(c)
-		relay := usecases.NewRelay(publisher)
+		relay := usecases.NewRelay(publisher, connectionsCache)
 
 		go func() {
 			logrus.Info("Waiting for events")

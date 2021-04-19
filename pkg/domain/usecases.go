@@ -4,5 +4,7 @@ import "context"
 
 type RelayUsecase interface {
 	RelayIncoming(context.Context, Client, []byte) error
-	RelayOutgoing(ctx context.Context, message *OutgoingEvent) error
+	RelayOutgoing(context.Context, *OutgoingEvent) error
+	AddClient(context.Context, Client)
+	DeleteClient(context.Context, string)
 }

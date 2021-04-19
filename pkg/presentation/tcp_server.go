@@ -32,6 +32,8 @@ func (s *tcpServer) Serve(ctx context.Context, conn net.Conn) {
 		id:   clientId,
 	}
 
+	s.relay.AddClient(ctx, client)
+	defer s.relay.DeleteClient(ctx, client.GetId())
 	for {
 		var b [32 * 1024]byte
 		n, err := conn.Read(b[:])
