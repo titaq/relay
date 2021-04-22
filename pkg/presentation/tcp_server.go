@@ -34,6 +34,7 @@ func (s *tcpServer) Serve(ctx context.Context, conn net.Conn) {
 
 	s.relay.AddClient(ctx, client)
 	defer s.relay.DeleteClient(ctx, client.GetId())
+
 	for {
 		var b [32 * 1024]byte
 		n, err := conn.Read(b[:])
@@ -47,4 +48,5 @@ func (s *tcpServer) Serve(ctx context.Context, conn net.Conn) {
 		}
 		logrus.Debugf("Received a message from client %s", clientId)
 	}
+	logrus.Debugf("Client %s disconnected", clientId)
 }

@@ -44,7 +44,7 @@ func main() {
 		relay := usecases.NewRelay(publisher, connectionsCache)
 
 		server := presentation.NewTCPServer(relay)
-		server.ListenAndServe("tcp4", ":4589")
+		server.ListenAndServe("tcp4", ":23000")
 	}()
 
 	go func() {

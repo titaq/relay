@@ -4,8 +4,14 @@ package domain;
 option go_package = "github.com/titaq/pkg/domain";
 
 message IncomingEvent {
+    enum Type {
+        NONE = 0;
+        CONNECT = 1;
+        DISCONNECT = 2;
+    }
     string client_id = 1;
     bytes data = 2;
+    Type type = 3;
 }
 
 message OutgoingEvent {
